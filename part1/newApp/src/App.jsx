@@ -10,14 +10,12 @@ const App = () => {
   const exercises2 = 7
   const part3 = 'State of a component'
   const exercises3 = 14
-  const contents = [part1, part2, part3]
-  const total = exercises1 + exercises2 + exercises3
 
   return (
     <div>
       <Header course={course} />
-      <Content contents={contents} />
-      <Total total={total} />
+      <Content content={part1} />
+      <Total total={exercises1} />
     </div>
   )
 }
