@@ -4,6 +4,15 @@ const Course = ({ course }) => (
   course.parts.map((part) => <li key={part.id}>{part.name} {part.exercises}</li>)
 )
 
+const Total = ({ course }) => {
+  const total = course.parts.reduce((acummulator, part) => {
+    return acummulator + part.exercises
+  }, 0)
+  return (
+    <h4>total of {total} exercises</h4>
+  )
+}
+
 const App = () => {
   const course = {
     id: 1,
@@ -23,7 +32,12 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
-      }
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
+      },
     ]
   }
 
@@ -31,7 +45,7 @@ const App = () => {
     <div>
       <Header course={course} />
       <Course course={course} />
-      
+      <Total course={course} />
       
     </div>
   )
