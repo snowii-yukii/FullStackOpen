@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react'
 import personService from './services/persons'
 
-const Filter = ({ search, handleSearchChange }) => {
+const Filter = ({ persons, search, handleSearchChange }) => {
   return (
     <div>
       filter shown with a <input value={search} onChange={handleSearchChange} />
+      {persons.map((person) => (
+        <li key={person.id}>
+          {person.name} {person.number}
+        </li>
+      ))}
     </div>
   )
 }
@@ -25,12 +30,13 @@ const PersonForm = ({ addPerson, newName, handleNameChange, newNumber, handleNum
   )
 }
 
-const Persons = ({ persons }) => {
+const Persons = ({ persons, remove }) => {
   return (
     <ul>
       {persons.map((person) => (
         <li key={person.id}>
           {person.name} {person.number}
+          <button onClick={() => remove(person.id, person.name)}>Delete</button>
         </li>
       ))}
     </ul>
@@ -88,12 +94,21 @@ const App = () => {
     person.name.toLowerCase().includes(search.toLowerCase())
   )
 
+  const deletePerson = (id, name) => {
+    if (window.confirm(`delete ${name}?`)) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
 
-      <Filter search={search} handleSearchChange={handleSearchChange} />
-      <Persons persons={filtered} />
+      <Filter persons={filtered} search={search} handleSearchChange={handleSearchChange} />
       <h3>Add a new</h3>
 
       <PersonForm 
@@ -104,7 +119,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Persons</h3>
-      <Persons persons={persons} />
+      <Persons persons={persons} remove={deletePerson} />
 
       <h3>Numbers</h3>
 
