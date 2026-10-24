@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 const Filter = ({ search, handleSearchChange }) => {
   return (
@@ -29,8 +29,20 @@ const Persons = ({ persons }) => {
   return (
     <ul>
       {persons.map((person) => (
-        <li key={person.name}>
+        <li key={person.id}>
           {person.name} {person.number}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+const Numbers = ({ persons }) => {
+  return (
+    <ul>
+      {persons.map((person) => (
+        <li key={person.id}>
+          {person.number}
         </li>
       ))}
     </ul>
@@ -43,13 +55,11 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
 
-  const baseURL = 'http://localhost:3001/persons'
-
   useEffect(() => {
-    axios
-    .get(baseURL)
-    .then((response) => {
-      setPersons(response.data)
+    personService
+    .get()
+    .then((initialPersons) => {
+      setPersons(initialPersons)
     })
   },[])
 
@@ -61,10 +71,10 @@ const App = () => {
       return alert(`${newName} is already added to the phonebook`)
     }
 
-    axios
-      .post(baseURL, personObject)
-      .then((response) => {
-        setPersons(persons.concat(response.data))
+    personService
+      .post(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
       })
@@ -98,7 +108,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={persons} />
+      <Numbers persons={persons} />
     </div>
   )
 }
