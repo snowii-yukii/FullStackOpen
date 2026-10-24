@@ -73,8 +73,25 @@ const App = () => {
     e.preventDefault()
     const personObject = { name: newName, number: newNumber }
 
-    if (persons.some(person => person.name === newName)) {
-      return alert(`${newName} is already added to the phonebook`)
+    const existingPerson = persons.find(person => person.name === newName)
+
+    if (existingPerson) {
+      if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
+        const changedPerson = { ...existingPerson, number: newNumber }
+        
+        personService
+          .update(existingPerson.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch(error => {
+            alert(`Information of ${existingPerson.name} has already been removed from server or ${error}`)
+            setPersons(persons.filter(p => p.id !== existingPerson.id))
+          })
+      }
+      return
     }
 
     personService
