@@ -35,6 +35,7 @@ const App = () => {
           {filteredCountries.map((country) => (
             <li key={country.cca3}>
               {country.name.common}
+              <button onClick={() => setSearch(country.name.common)}>Show</button>
             </li>
           ))}
         </ul>
