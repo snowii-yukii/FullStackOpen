@@ -1,6 +1,40 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
+const Weather = ({ capital }) => {
+  const [weather, setWeather] = useState(null)
+  const api_key = import.meta.env.VITE_WEATHER_KEY
+
+  useEffect(() => {
+    if (!capital) return
+
+    axios
+      .get(`https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${api_key}&units=metric`)
+      .then(response => {
+        setWeather(response.data)
+      })
+      .catch(error => {
+        console.error('Error fetching weather:', error)
+      })
+  }, [capital, api_key])
+
+  if (!weather) {
+    return null
+  }
+
+  return (
+    <div>
+      <h3>Weather in {capital}</h3>
+      <p>temperature {weather.main.temp} °C</p>
+      <img 
+        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} 
+        alt={weather.weather[0].description} 
+      />
+      <p>wind {weather.wind.speed} m/s</p>
+    </div>
+  )
+}
+
 const App = () => {
   const [countries, setCountries] = useState([])
   const [search, setSearch] = useState('')
@@ -59,6 +93,8 @@ const App = () => {
                 alt={`Flag of ${country.name.common}`} 
                 width="150" 
               />
+
+              <Weather capital={country.capital} />
             </div>
           ))}
         </div>
