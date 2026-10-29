@@ -32,6 +32,17 @@ app.get('/api/persons', (req, res) => {
     res.json(entries)
 })
 
+app.get('/api/persons/:id', (req, res) => {
+    const id = req.params.id
+    const entry = entries.find(entry => entry.id === id)
+
+    if(entry) {
+        res.json(entry)
+    } else {
+        res.status(404).end()
+    }
+})
+
 app.get('/info', (req, res) => {
     const entryCount = entries.length
     const date = new Date()
