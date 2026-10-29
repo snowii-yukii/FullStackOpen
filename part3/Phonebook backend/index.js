@@ -5,7 +5,7 @@ app.use(express.json())
 
 const PORT = 3000
 
-const entries = [
+let entries = [
     { 
       "id": "1",
       "name": "Arto Hellas", 
@@ -57,14 +57,33 @@ app.get('/info', (req, res) => {
 
 app.delete('/api/persons/:id', (req, res) => {
     const id = req.params.id
-    const entry = entries.filter(entry => entry.id !== id)
+    entries.filter(entry => entry.id !== id)
 
-    if(entry) {
-        res.json(entry)
+    if(entries) {
+        res.json(entries)
     } else {
         res.status(204).end()
     }
 } )
+
+app.post('/api/persons', (req, res) => {
+    const body = req.body
+
+    if (!body.name || !body.number) {
+        return res.status(400).json({
+            error: 'name or number missing'
+        })
+    }
+
+    const newEntry = {
+        id: String(Math.floor(Math.random() * 1000)),
+        name: body.name,
+        number: body.number
+    }
+
+    entries = entries.concat(newEntry)
+    res.json(newEntry)
+})
 
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`)
