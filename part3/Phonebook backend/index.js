@@ -74,6 +74,11 @@ app.post('/api/persons', (req, res) => {
             error: 'name or number missing'
         })
     }
+    if (entries.some(entry => entry.name === body.name)) {
+        return res.status(409).json({
+            error: 'name must be unique' 
+        })
+    }
 
     const newEntry = {
         id: String(Math.floor(Math.random() * 1000)),
