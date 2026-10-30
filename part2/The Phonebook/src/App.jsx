@@ -111,7 +111,7 @@ const App = () => {
             notify(`Updated '${returnedPerson.name}'`, 'success')
           })
           .catch(error => {
-            notify(`Information of ${existingPerson.name} has already been removed from server`, 'error')
+            notify(`Information of ${existingPerson.name} has already been removed from server`, error)
             setPersons(persons.filter(p => p.id !== existingPerson.id))
           })
       }
@@ -127,7 +127,7 @@ const App = () => {
         notify(`Added '${returnedPerson.name}'`, 'success')
       })
       .catch(error => {
-        notify(`Failed to add '${newName}'`, 'error')
+        notify(`Failed to add '${newName}'`, error)
       })
   }
 
@@ -148,7 +148,7 @@ const App = () => {
           notify(`Deleted '${name}'`, 'success')
         })
         .catch(error => {
-          notify(`Information of ${name} has already been removed from server`, 'error')
+          notify(`Information of ${name} has already been removed from server`, error)
           setPersons(persons.filter(person => person.id !== id))
         })
     }
