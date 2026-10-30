@@ -24,3 +24,5 @@ The course serves as an introduction to modern web development
 | **Part 11** | CI/CD | ⏳ Pending |
 | **Part 12** | Containers (Docker) | ⏳ Pending |
 | **Part 13** | Using Relational Databases | ⏳ Pending |
+
+PART 3 phonebook backend deployed using render https://phonebook-backend-fnh9.onrender.com
