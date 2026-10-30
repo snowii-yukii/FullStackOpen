@@ -13,7 +13,7 @@ morgan.token('body', (req) => {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 let entries = [
     { 
