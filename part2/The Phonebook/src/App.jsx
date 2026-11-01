@@ -77,20 +77,23 @@ const App = () => {
   const [search, setSearch] = useState('')
   const [notification, setNotification] = useState(null)
 
+   const notify = (message, type = 'success') => {
+    setNotification({ message, type })
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
+
   useEffect(() => {
     personService
       .get()
       .then((initialPersons) => {
         setPersons(initialPersons)
       })
+      .catch(error => {
+        notify(error.response.data.error, 'error')
+      })
   }, [])
-
-  const notify = (message, type = 'success') => {
-    setNotification({ message, type })
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
-  }
 
   const addPerson = (e) => {
     e.preventDefault()
@@ -111,8 +114,7 @@ const App = () => {
             notify(`Updated '${returnedPerson.name}'`, 'success')
           })
           .catch(error => {
-            notify(`Information of ${existingPerson.name} has already been removed from server`, error)
-            setPersons(persons.filter(p => p.id !== existingPerson.id))
+            notify(error.response.data.error, 'error')
           })
       }
       return
@@ -127,7 +129,7 @@ const App = () => {
         notify(`Added '${returnedPerson.name}'`, 'success')
       })
       .catch(error => {
-        notify(`Failed to add '${newName}'`, error)
+        notify(error.response.data.error, 'error')
       })
   }
 
@@ -148,8 +150,7 @@ const App = () => {
           notify(`Deleted '${name}'`, 'success')
         })
         .catch(error => {
-          notify(`Information of ${name} has already been removed from server`, error)
-          setPersons(persons.filter(person => person.id !== id))
+          notify(error.response.data.error, 'error')
         })
     }
   }

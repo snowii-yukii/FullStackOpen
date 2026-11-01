@@ -112,7 +112,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
 
   next(error)
 }
@@ -122,8 +124,3 @@ app.use(errorHandler)
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`)
 })
-
-// finished 3.18 rarararararar it won't committt
-// rararar
-// rarararr
-// rarararrar
