@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const dns = require('node:dns') 
+const dns = require('node:dns')
 dns.setServers(['8.8.8.8', '1.1.1.1'])
 
 const express = require('express')
@@ -77,7 +77,7 @@ app.post('/api/persons', (req, res, next) => {
             error: 'name or number missing'
         })
     }
-    
+
     const person = new Person({
         name: body.name,
         number: body.number
@@ -124,5 +124,3 @@ app.use(errorHandler)
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`)
 })
-
-// finished 3.21
