@@ -13,7 +13,7 @@ The course serves as an introduction to modern web development
 | **Part 0** | Fundamentals of Web Apps |  Completed |
 | **Part 1** | Introduction to React |  Completed |
 | **Part 2** | Communicating with Server |  Completed |
-| **Part 3** | Programming a Server with NodeJS and Express | ⏳ In Progress |
+| **Part 3** | Programming a Server with NodeJS and Express | Completed |
 | **Part 4** | Testing Express Servers, User Administration | ⏳ Pending |
 | **Part 5** | Testing React Apps | ⏳ Pending |
 | **Part 6** | Advanced State Management (Redux) | ⏳ Pending |
